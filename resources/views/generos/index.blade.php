@@ -5,7 +5,22 @@
 @section('title', '| GÊNEROS')
 
 @section('content')
+<div class="container">
+			
+		     
+			    <div class="form-group">
+				 <form action="{{ url('/generos') }}" method="get">
+                                {{ csrf_field() }}
+                                <label class="control-label">Pesquisar</label>
 
+                                <input type="search" class="form-control input-sm" name="titulo_genero" value="">
+
+                                <button type="submit" class="btn btn-primary btn-sm" title="Pesquisar">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </form>
+			</div>
+	</div>
 <div class="container">
 
 
@@ -50,7 +65,7 @@
     @endforeach
     </tbody>
 </table>
-{{ $generos->links() }}
+{{ $generos->appends(['titulo_genero' => $pesquisaGenero])->links() }}
 </div>
 @endsection
 

@@ -5,6 +5,22 @@
 @section('title', '| FILMES')
 
 @section('content')
+<div class="container">
+			
+		     
+			    <div class="form-group">
+				 <form action="{{ url('/filmes') }}" method="get">
+                                {{ csrf_field() }}
+                                <label class="control-label">Pesquisar</label>
+
+                                <input type="search" class="form-control input-sm" name="titulo" value="">
+
+                                <button type="submit" class="btn btn-primary btn-sm" title="Pesquisar">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </form>
+			</div>
+	</div>
 
 <div class="container">
 
@@ -58,7 +74,7 @@
     @endforeach
     </tbody>
 </table>
-
+{{ $filmes->appends(['titulo' => $pesquisaFilme])->links() }}
 </div>
 @endsection
 

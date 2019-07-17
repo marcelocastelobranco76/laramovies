@@ -100,8 +100,10 @@
                 @include ('errors.list') {{-- Including error file --}}
             </div>
         </div>
-
-        @yield('content')
+			
+	
+        
+@yield('content')
 
     </div>
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\filme;
 use App\genero;
 use Illuminate\Http\Request;
-
 use Auth;
 use Session;
 Use DB;
@@ -28,14 +27,24 @@ Use View;
      * @return \Illuminate\Http\Response
      */
 
-     public function index()
+     public function index(Request $request)
     {
-        /** Todos os generos **/
-        $generos = genero::orderBy('titulo_genero')->paginate(5);;
+	$pesquisaGenero = $request->get('titulo_genero');
+        
+	/** Todos os generos ou o gênero filtrado na pesquisa **/
+        
+	if(!$pesquisaGenero) {
+		$generos = genero::orderBy('titulo_genero')->paginate(5);
+	}
+
+	if($pesquisaGenero) {
+	 	$generos = genero::where('titulo_genero', 'LIKE', '%'.$pesquisaGenero.'%')->paginate(5); /**busca com operador LIKE SQL**/
+	}
 
         /** Carrega a visualizacao e mostra os generos **/
-                return view('generos.index')
-            ->with('generos', $generos);
+                return view('generos.index', compact('generos', 'pesquisaGenero'));
+	
+
     }
 
    

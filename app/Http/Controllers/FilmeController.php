@@ -25,19 +25,22 @@ class FilmeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+   	public function index(Request $request)
     {
-        /**Lista todos os filmes **/
+	$pesquisaFilme = $request->get('titulo');
 
-        $filmes = DB::table('filmes')
-            ->join('generos', 'filmes.id_genero', '=', 'generos.id')
-            ->select('filmes.*', 'generos.titulo_genero')
-            ->get();
+	if(!$pesquisaFilme) {
+	 	$filmes = DB::table('filmes')->join('generos', 'filmes.id_genero', '=', 'generos.id')->select('filmes.*', 'generos.titulo_genero')->paginate(1);
+	}
 
+	if($pesquisaFilme) {
+	   	$filmes = DB::table('filmes')->join('generos', 'filmes.id_genero', '=', 'generos.id')->select('filmes.*', 'generos.titulo_genero')->orwhere('filmes.titulo', 'like',  '%' . $pesquisaFilme .'%')->paginate(1);
 
+	  }
         /**Carrega a visualização e mostra os filmes **/
-                return view('filmes.index')
-            ->with('filmes', $filmes);
+          return view('filmes.index', compact('filmes', 'pesquisaFilme'));
+     
+
     }
 
 
